@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:manutencaocobrancabancaria="http://caixa.gov.br/sibar/manutencao_cobranca_bancaria/boleto/externo" xmlns:sibar_base="http://caixa.gov.br/sibar">
+  <soapenv:Body>
+    <manutencaocobrancabancaria:SERVICO_ENTRADA>
+      <sibar_base:HEADER>
+        <VERSAO>3.0</VERSAO>
+        <AUTENTICACAO>utiTGxAcD9LkXqUNzCXgcLzdvaT/wGZOHEuZDyU7rtQ=</AUTENTICACAO>
+        <USUARIO_SERVICO>SGCBS02P</USUARIO_SERVICO>
+        <OPERACAO>INCLUI_BOLETO</OPERACAO>
+        <SISTEMA_ORIGEM>SIGCB</SISTEMA_ORIGEM>
+        <UNIDADE>0524</UNIDADE>
+        <DATA_HORA>20220831021154</DATA_HORA>
+      </sibar_base:HEADER>
+      <DADOS>
+        <INCLUI_BOLETO>
+          <CODIGO_BENEFICIARIO>0088272</CODIGO_BENEFICIARIO>
+          <TITULO>
+            <NOSSO_NUMERO>14123456789012345</NOSSO_NUMERO>
+            <NUMERO_DOCUMENTO>11111111111</NUMERO_DOCUMENTO>
+            <DATA_VENCIMENTO>2022-09-16</DATA_VENCIMENTO>
+            <VALOR>1000.00</VALOR>
+            <TIPO_ESPECIE>99</TIPO_ESPECIE>
+            <FLAG_ACEITE>S</FLAG_ACEITE>
+            <DATA_EMISSAO>2022-08-31</DATA_EMISSAO>
+            <JUROS_MORA>
+              <TIPO>TAXA_MENSAL</TIPO>
+              <VALOR>2.00</VALOR>
+            </JUROS_MORA>
+            <VALOR_ABATIMENTO>0.00</VALOR_ABATIMENTO>
+            <POS_VENCIMENTO>
+              <ACAO>DEVOLVER</ACAO>
+              <NUMERO_DIAS>30</NUMERO_DIAS>
+            </POS_VENCIMENTO>
+            <CODIGO_MOEDA>09</CODIGO_MOEDA>
+            <PAGADOR>
+              <CPF>46564612885</CPF>
+              <NOME>Rafael Henrique Gomes de Morais</NOME>
+              <ENDERECO>
+                <LOGRADOURO>Rua das Laranjeiras 123</LOGRADOURO>
+                <BAIRRO>Nova Olinda</BAIRRO>
+                <CIDADE>OSASCO</CIDADE>
+                <UF>SP</UF>
+                <CEP>12356111</CEP>
+              </ENDERECO>
+            </PAGADOR>
+            <MULTA>
+              <DATA>2022-09-16</DATA>
+              <VALOR>20</VALOR>
+            </MULTA>
+            <DESCONTOS>
+              <DESCONTO>
+                <DATA>2022-09-03</DATA>
+                <VALOR>20.00</VALOR>
+              </DESCONTO>
+              <DESCONTO>
+                <DATA>2022-09-07</DATA>
+                <VALOR>10.00</VALOR>
+              </DESCONTO>
+              <DESCONTO>
+                <DATA>2022-09-12</DATA>
+                <VALOR>5.00</VALOR>
+              </DESCONTO>
+            </DESCONTOS>
+            <FICHA_COMPENSACAO>
+              <MENSAGENS>
+                <MENSAGEM>Teste de mensagem 1</MENSAGEM>
+                <MENSAGEM>Teste de Mensagem 2</MENSAGEM>
+              </MENSAGENS>
+            </FICHA_COMPENSACAO>
+            <RECIBO_PAGADOR>
+              <MENSAGENS>
+                <MENSAGEM>Teste de mensagem 3</MENSAGEM>
+                <MENSAGEM>Teste de Mensagem 4</MENSAGEM>
+              </MENSAGENS>
+            </RECIBO_PAGADOR>
+          </TITULO>
+        </INCLUI_BOLETO>
+      </DADOS>
+    </manutencaocobrancabancaria:SERVICO_ENTRADA>
+  </soapenv:Body>
+</soapenv:Envelope>
