@@ -42,21 +42,4 @@ class XMLBuilder extends DOMDocument
             $domElement->appendChild($this->createTextNode($array));
         }
     }
-	/**
-	 * Appends nodes after the last child node
-	 * Appends one or many `nodes` to the list of children after the last child node.
-	 *
-	 * @param \DOMNode|null|string $nodes The nodes to append.
-	 */
-	function append( /*...$nodes*/ ) {
-	}
-	
-	/**
-	 * Prepends nodes before the first child node
-	 * Prepends one or many `nodes` to the list of children before the first child node.
-	 *
-	 * @param \DOMNode|null|string $nodes The nodes to prepend.
-	 */
-	function prepend( /*...$nodes*/ ) {
-	}
 }
