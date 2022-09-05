@@ -7,14 +7,14 @@ require_once('./vendor/autoload.php');
  */
 
 
-use ConsirInformatica\BoletosOnline\Caixa\BoletoCaixa;
-use ConsirInformatica\BoletosOnline\Caixa\IntegracaoCaixa;
-use ConsirInformatica\BoletosOnline\Pagador;
-use ConsirInformatica\BoletosOnline\Beneficiario;
-use ConsirInformatica\BoletosOnline\Multa;
-use ConsirInformatica\BoletosOnline\Desconto;
-use ConsirInformatica\BoletosOnline\Juros;
-use ConsirInformatica\BoletosOnline\PosVencimento;
+use BoletosOnline\Caixa\BoletoCaixa;
+use BoletosOnline\Caixa\IntegracaoCaixa;
+use BoletosOnline\Pagador;
+use BoletosOnline\Beneficiario;
+use BoletosOnline\Multa;
+use BoletosOnline\Desconto;
+use BoletosOnline\Juros;
+use BoletosOnline\PosVencimento;
 
 $boleto = new BoletoCaixa();
 

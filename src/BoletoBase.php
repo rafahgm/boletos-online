@@ -6,7 +6,7 @@
  */
 
 
-namespace ConsirInformatica\BoletosOnline;
+namespace BoletosOnline;
 
 
 class BoletoBase {

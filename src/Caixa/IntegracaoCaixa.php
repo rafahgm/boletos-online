@@ -9,13 +9,13 @@
  *
  */
 
-namespace ConsirInformatica\BoletosOnline\Caixa;
+namespace BoletosOnline\Caixa;
 
 use DateTime;
 use SimpleXMLElement;
 use Exception;
-use ConsirInformatica\BoletosOnline\XMLBuilder;
-use ConsirInformatica\BoletosOnline\Util;
+use BoletosOnline\XMLBuilder;
+use BoletosOnline\Util;
 
 class IntegracaoCaixa
 {

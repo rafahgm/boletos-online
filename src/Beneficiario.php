@@ -1,6 +1,6 @@
 <?php
 
-namespace ConsirInformatica\BoletosOnline;
+namespace BoletosOnline;
 
 class Beneficiario
 {

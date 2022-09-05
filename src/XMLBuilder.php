@@ -7,7 +7,7 @@
  * @package BoletosOnline
  */
 
-namespace ConsirInformatica\BoletosOnline;
+namespace BoletosOnline;
 
 use DOMDocument;
 use DOMElement;
@@ -19,7 +19,7 @@ class XMLBuilder extends DOMDocument
      * @param array $array
      * @param DOMElement $domElement
      */
-    public function convertArrayToXml(array $array, DOMElement $domElement = null)
+    public function convertArrayToXml($array, DOMElement $domElement = null)
     {
         $domElement = is_null($domElement) ? $this : $domElement;
 

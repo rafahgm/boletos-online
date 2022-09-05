@@ -1,13 +1,13 @@
 <?php
 
-namespace ConsirInformatica\BoletosOnline\Caixa;
+namespace BoletosOnline\Caixa;
 
-use ConsirInformatica\BoletosOnline\Beneficiario;
-use ConsirInformatica\BoletosOnline\Juros;
-use ConsirInformatica\BoletosOnline\PosVencimento;
-use ConsirInformatica\BoletosOnline\Pagador;
-use ConsirInformatica\BoletosOnline\Desconto;
-use ConsirInformatica\BoletosOnline\Multa;
+use BoletosOnline\Beneficiario;
+use BoletosOnline\Juros;
+use BoletosOnline\PosVencimento;
+use BoletosOnline\Pagador;
+use BoletosOnline\Desconto;
+use BoletosOnline\Multa;
 
 class BoletoCaixa
 {
