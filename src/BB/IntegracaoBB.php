@@ -4,7 +4,7 @@ namespace BoletosOnline\BB;
 
 use BoletosOnline\Ambiente;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 
 class IntegracaoBB
 {
@@ -15,10 +15,28 @@ class IntegracaoBB
         ),
         Ambiente::DESENVOLVIMENTO => array(
             'token' => 'https://oauth.sandbox.bb.com.br/oauth/token',
-            'registro' => 'https://cobranca.homologa.bb.com.br:7101/registrarBoleto'
+            'registro' => 'https://api.sandbox.bb.com.br/cobrancas/v2/boletos'
         )
     );
 
+
+    /**
+     * Tempo de expiração do token
+     * @var float $tokenTtl
+     */
+    static private $tokenTtl = 600;
+
+    /**
+     * Caminho para o diretorio de cache dos tokens
+     * @var string $pastaCache
+     */
+    static private $pastaCache = __DIR__ . '/cache';
+
+    /**
+     * Último token obtido
+     * @var string $tokenEmCache
+     */
+    private $tokenEmCache;
 
     /**
      * Ambiente da Aplicação PRODUÇÃO OU DESENVOLVIMENTO
@@ -46,6 +64,7 @@ class IntegracaoBB
 
     public function __construct()
     {
+
         $this->httpClient = new Client([
             'timeout' => 2.0
         ]);
@@ -64,8 +83,51 @@ class IntegracaoBB
         return 'Basic ' . base64_encode($this->clientID . ':' . $this->secret);
     }
 
-    public function obterToken()
+    /**
+     * Obtem um token do BB
+     * @throws \Exception
+     * @return string
+     */
+    public function obterToken($usar_cache = false)
     {
+
+        if ($this->tokenEmCache && $usar_cache) return $this->tokenEmCache['access_token'];
+
+        // Cria pasta para o cache caso não exista
+        mkdir(self::$pastaCache, 0775, true);
+        $caminho_arquivo_cache = self::$pastaCache . '/bb_token_cache_' . md5($this->clientID);
+
+        if ($usar_cache) {
+            // Se o arquivo existir, retorna o timestamp da última modificação
+            $ultima_modificacao = filemtime($caminho_arquivo_cache);
+
+            if ($ultima_modificacao && $ultima_modificacao + self::$tokenTtl > time()) {
+                // Tenta abrir o arquivo
+                $arquivo = fopen($caminho_arquivo_cache, 'r');
+
+                if ($arquivo) {
+                    // Trava o arquivo enquanto é lido
+                    flock($arquivo, LOCK_SH);
+
+                    $token = '';
+
+                    do
+                        $token .= fread($arquivo, 1024);
+                    while (!feof($arquivo));
+
+                    fclose($arquivo);
+
+
+                    // retorna o token
+                    $this->tokenEmCache = array(
+                        'token' => $token,
+                        'cache' => true
+                    );
+                    return $token;
+                }
+            }
+        }
+
         try {
             // Envia requisição para o access token
             $response = $this->httpClient->post(self::$urls[$this->ambiente]['token'], [
@@ -79,18 +141,56 @@ class IntegracaoBB
                 ]
             ]);
 
-            
-            if($response->getBody()) {
+            $json_response = json_decode($response->getBody(), true);
+            if ($json_response) {
                 // Sucesso
-                $json_response = json_decode($response->getBody(), true);
+                if ($json_response['access_token']) {
+                    // Armazena o token em cache
+                    $arquivo = fopen($caminho_arquivo_cache, 'w+');
 
-                if($json_response['access_token']) {
-                    
+                    if ($arquivo) {
+                        flock($arquivo, LOCK_SH);
+
+                        // apaga todo o conteúdo do arquivo
+                        ftruncate($arquivo, 0);
+
+                        // escreve o token no arquivo
+                        fwrite($arquivo, $json_response['access_token']);
+
+                        fclose($arquivo);
+                    }
                 }
-            }
 
-        }catch(ClientException $clientException) {
-            var_dump($clientException->getMessage());
+                $this->tokenEmCache = array(
+                    'token' => $json_response['access_token'],
+                    'cache' => false
+                );
+                return $json_response['access_token'];
+            } else {
+                throw new \Exception('Erro ao obter token: ' . $json_response['error_description']);
+            }
+        } catch (GuzzleException $exception) {
+            throw new \Exception('Erro na requisição do token: ' . $exception->getMessage());
         }
+    }
+
+    /**
+     * Registra boleto
+     * 
+     * @param Boleto $boleto
+     */
+    public function registraBoleto(Boleto $boleto) {
+        $payload = json_encode($boleto);
+
+        $token = $this->obterToken();
+
+        $response = $this->httpClient->post(self::$urls[$this->ambiente]['boleto'], [
+            'query' => ['gw-dev-app-key', '7091308b0dffbeb01365e18100050f56b991a5b4'],
+            'headers'  => [
+                'Authorization' => $token,
+                'Cache-Control' => 'no-cache'
+            ],
+            'json' => $payload
+        ]);
     }
 }
