@@ -3,6 +3,7 @@
 namespace BoletosOnline\BB;
 
 use BoletosOnline\Ambiente;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
@@ -11,11 +12,11 @@ class IntegracaoBB
     static private $urls = array(
         Ambiente::PRODUCAO => array(
             'token' => 'https://oauth.bb.com.br/oauth/token',
-            'registro' => 'https://cobranca.bb.com.br:7101/registrarBoleto'
+            'registro' => 'https://api.bb.com.br/cobrancas/v2/boletos'
         ),
         Ambiente::DESENVOLVIMENTO => array(
-            'token' => 'https://oauth.sandbox.bb.com.br/oauth/token',
-            'registro' => 'https://api.sandbox.bb.com.br/cobrancas/v2/boletos'
+            'token' => 'https://oauth.hm.bb.com.br/oauth/token',
+            'registro' => 'https://api.hm.bb.com.br/cobrancas/v2/boletos'
         )
     );
 
@@ -94,7 +95,8 @@ class IntegracaoBB
         if ($this->tokenEmCache && $usar_cache) return $this->tokenEmCache['access_token'];
 
         // Cria pasta para o cache caso não exista
-        mkdir(self::$pastaCache, 0775, true);
+        if(!file_exists(self::$pastaCache))
+            mkdir(self::$pastaCache, 0775, true);
         $caminho_arquivo_cache = self::$pastaCache . '/bb_token_cache_' . md5($this->clientID);
 
         if ($usar_cache) {
@@ -180,17 +182,30 @@ class IntegracaoBB
      * @param Boleto $boleto
      */
     public function registraBoleto(Boleto $boleto) {
-        $payload = json_encode($boleto);
 
         $token = $this->obterToken();
+        $payload = json_encode($boleto);
 
-        $response = $this->httpClient->post(self::$urls[$this->ambiente]['boleto'], [
-            'query' => ['gw-dev-app-key', '7091308b0dffbeb01365e18100050f56b991a5b4'],
-            'headers'  => [
-                'Authorization' => $token,
-                'Cache-Control' => 'no-cache'
-            ],
-            'json' => $payload
-        ]);
+        var_dump(json_decode($payload, true));
+        // die();
+        try {
+            $response = $this->httpClient->post(self::$urls[$this->ambiente]['registro'], [
+                'query' => ['gw-dev-app-key' => 'd27b077904ffaba0136fe17d40050f56b911a5b7'],
+                'headers'  => [
+                    'Authorization' => 'Bearer ' . $token,
+                    'Cache-Control' => 'no-cache',
+                    'Content-Type' => 'application/json'
+                ],
+                'body' => $payload
+            ]);
+
+            $json_response = json_decode($response->getBody(), true);
+            if($json_response) {
+                var_dump($json_response);
+            }
+
+        }catch(\Exception $e) {
+            var_dump($e->getMessage());
+        }
     }
 }

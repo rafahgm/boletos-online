@@ -2,6 +2,8 @@
 
 namespace BoletosOnline\BB;
 
+use BoletosOnline\Ambiente;
+
 class Boleto implements \JsonSerializable
 {
     /**
@@ -50,7 +52,7 @@ class Boleto implements \JsonSerializable
      * Informação não passível de alteração após a criação. No caso de emissão com valor equivocado, sugerimos cancelar e emitir novo boleto.
      * @var float $valor
      */
-    private $valor;
+    private $valorOriginal;
 
     /**
      * Valor de dedução do boleto >= 0.00.
@@ -387,9 +389,9 @@ class Boleto implements \JsonSerializable
      * Informação não passível de alteração após a criação. No caso de emissão com valor equivocado, sugerimos cancelar e emitir novo boleto.
      * @return  float
      */
-    public function getValor()
+    public function getValorOriginal()
     {
-        return $this->valor;
+        return $this->valorOriginal;
     }
 
     /**
@@ -401,9 +403,9 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setValor(float $valor)
+    public function setValorOriginal(float $valorOriginal)
     {
-        $this->valor = $valor;
+        $this->valorOriginal = $valorOriginal;
 
         return $this;
     }
@@ -719,7 +721,18 @@ class Boleto implements \JsonSerializable
      */
     public function setNumeroTituloCliente(string $numeroTituloCliente)
     {
-        $this->numeroTituloCliente = '000' . $this->getNumeroConvenio() . $numeroTituloCliente;
+        if($_ENV['AMBIENTE'] === Ambiente::DESENVOLVIMENTO) {
+            $caracteres = '0123456789';
+            $aleatorio = '';
+            
+            for($i = 0; $i < 20; $i++) {
+                $aleatorio .= $caracteres[rand(0, strlen($caracteres) - 1)];
+            }
+
+            $this->numeroTituloCliente = '000' . $this->getNumeroConvenio() . $aleatorio;
+        }else {
+            $this->numeroTituloCliente = '000' . $this->getNumeroConvenio() . $numeroTituloCliente;
+        }
 
         return $this;
     }

@@ -28,29 +28,30 @@ $pagador->setTipoInscricao(1)
 ->setBairro('Distrito de Potunduva')
 ->setCidade('Jaú')
 ->setUf('SP')
-->setCep(17220133);
+->setCep(17220133)
+->setEndereco('Rua Marino Tomazini, 440');
 
 $boleto = new Boleto();
 
-$boleto->setNumeroConvenio(1234567)
+$boleto->setNumeroConvenio(3128557)
     ->setNumeroCarteira(17)
-    ->setNumeroVariacaoCarteira(19)
+    ->setNumeroVariacaoCarteira(35)
     ->setCodigoModalidade(1)
     ->setDataEmissao(new \DateTime())
-    ->setDataVencimento($boleto->getDataEmissao()->add(new \DateInterval('P15D')))
-    ->setValor(100.00)
-    ->setDesconto((new Desconto())->setTipo(0))
-    ->setJuros((new Juros())->setTipo(0))
-    ->setMulta((new Multa())->setTipo(0))
+    ->setDataVencimento((new \DateTime())->add(new \DateInterval('P15D')))
+    ->setValorOriginal(100.00)
+    // ->setDesconto((new Desconto())->setTipo(0))
+    // ->setJuros((new Juros())->setTipo(0))
+    // ->setMulta((new Multa())->setTipo(0))
     ->setCodigoAceite('S')
-    ->setCodigoTipoTitulo(17)
-    ->setDescricaoTipoTitulo('Recibo')
-    ->setIndicadorAceiteTituloVencido('N')
+    ->setCodigoTipoTitulo(2)
+    // ->setDescricaoTipoTitulo('Recibo')
+    // ->setIndicadorAceiteTituloVencido('N')
     ->setIndicadorPermissaoRecebimentoParcial('N')
-    ->setNumeroTituloCliente(sprintf('%010d', 1))
-    ->setMensagemBloquetoOcorrencia('Pagamento disponível até a data de vencimento')
-    ->setPagador($pagador)
-    ->setIndicadorPix('S');
+    ->setNumeroTituloCliente('0000019999')
+    // ->setMensagemBloquetoOcorrencia('Pagamento disponível até a data de vencimento')
+    ->setPagador($pagador);
+    // ->setIndicadorPix('S');
 
 $integracao = new IntegracaoBB();
 
