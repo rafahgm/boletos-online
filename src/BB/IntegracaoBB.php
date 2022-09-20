@@ -186,7 +186,6 @@ class IntegracaoBB
         $token = $this->obterToken();
         $payload = json_encode($boleto);
 
-        var_dump(json_decode($payload, true));
         // die();
         try {
             $response = $this->httpClient->post(self::$urls[$this->ambiente]['registro'], [
@@ -205,7 +204,7 @@ class IntegracaoBB
             }
 
         }catch(\Exception $e) {
-            var_dump($e->getMessage());
+            throw new \Exception('Erro na requisição do registro');
         }
     }
 }
