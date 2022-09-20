@@ -13,9 +13,9 @@
 
 O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas nas seguintes tarefas:
 
-- [ ] Abstrair a objeto Boleto para todos os bancos
-- [ ] Abstrair o objeto Pagador para todos os bancos
-- [ ] Abstrair o objeto Beneficario para todos os bancos
+- [ ] Abstrair a classe Boleto para todos os bancos
+- [ ] Abstrair o classe Pagador para todos os bancos
+- [ ] Abstrair o classe Beneficario para todos os bancos
 - [ ] Padronizar o Guzzle para requests
 - [ ] Adicionar Bradesco
 - [ ] Adicionar Santander
