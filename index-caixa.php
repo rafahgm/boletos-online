@@ -47,5 +47,5 @@ $boleto->mensagensCompensacao = array("Teste de mensagem 1", "Teste de Mensagem 
 $boleto->mensagensPagador = array("Teste de mensagem 3", "Teste de Mensagem 4");
 
 $integracao = new IntegracaoCaixa($boleto);
-header('Content-Type: application/xml');
-echo($integracao->getDadosXML());
+
+$retorno = $integracao->realizarRegistro();

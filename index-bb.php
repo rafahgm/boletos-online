@@ -55,6 +55,6 @@ $boleto->setNumeroConvenio(3128557)
 
 $integracao = new IntegracaoBB();
 
-$integracao->registraBoleto($boleto);
+$retorno = $integracao->registraBoleto($boleto);
 
 
