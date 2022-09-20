@@ -149,6 +149,7 @@ class IntegracaoCaixa
 	 * Realiza o registro no webservice da Caixa Econômica Federal
 	 *
 	 * @throws Exception
+	 * @return SimpleXMLElement
 	 */
 	public function realizarRegistro()
 	{
@@ -170,14 +171,11 @@ class IntegracaoCaixa
 			curl_close($connCURL);
 
 			if ($err) {
-				echo '<pre>';
-				print_r($err);
-				die;
+				throw new Exception('Erro na requisição');
 			}
 
 			$response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", $responseCURL);
-			header('Content-Type: application/xml');
-			echo ($response);
+			return simplexml_load_string($response);
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage(), $e->getCode());
 		}

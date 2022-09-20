@@ -201,7 +201,7 @@ class IntegracaoBB
 
             $json_response = json_decode($response->getBody(), true);
             if($json_response) {
-                var_dump($json_response);
+                return $json_response;
             }
 
         }catch(\Exception $e) {
