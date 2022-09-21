@@ -49,6 +49,7 @@ class IntegracaoCaixa
 			}
 		}
 
+		$dataEmissao = new DateTime('now');
 		$arrayDados = array(
 			'soapenv:Body' => array(
 				'manutencaocobrancabancaria:SERVICO_ENTRADA' => array(
@@ -71,7 +72,7 @@ class IntegracaoCaixa
 								'VALOR' => sprintf('%0.2f', $boleto->valor),
 								'TIPO_ESPECIE' => '99', // Olhar no manual qual enviar
 								'FLAG_ACEITE' => 'S', // S-Aceite | N-Não aceite (reconhecimento de dívida pelo pagador)
-								'DATA_EMISSAO' => (new DateTime())->format('Y-m-d'),
+								'DATA_EMISSAO' => $dataEmissao->format('Y-m-d'),
 								'JUROS_MORA' => $boleto->juros->toArray(),
 								'VALOR_ABATIMENTO' => sprintf('%0.2f', $boleto->abatimento),
 								'POS_VENCIMENTO' => $boleto->posVencimento->toArray(),
@@ -216,7 +217,7 @@ class IntegracaoCaixa
 	 * @param string $name
 	 * @return \DOMElement
 	 */
-	private function getElementByTagName(XMLBuilder $xml, string $name)
+	private function getElementByTagName($xml, $name)
 	{
 		return $xml->getElementsByTagName($name)->item(0);
 	}

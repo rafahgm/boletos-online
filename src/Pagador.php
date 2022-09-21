@@ -67,7 +67,7 @@ class Pagador
             $returnArray['CPF'] = $this->cpf;
             $returnArray['NOME'] = $this->nome;
         }else {
-            $returnArray['CNPJ'] = str_replace(['.', '-', '/'], '', $this->cnpj);
+            $returnArray['CNPJ'] = str_replace(array('.', '-', '/'), '', $this->cnpj);
             $returnArray['RAZAO_SOCIAL'] = $this->razaoSocial;
         }
 
@@ -76,7 +76,7 @@ class Pagador
             'BAIRRO' => substr($this->bairro, 0, 15),
             'CIDADE' => substr($this->cidade, 0, 150),
             'UF' => $this->uf,
-            'CEP' => str_replace(['.', '-'], '', $this->cep)
+            'CEP' => str_replace(array('.', '-'), '', $this->cep)
         );
 
         return $returnArray;

@@ -44,7 +44,7 @@ class Beneficiario
      *
      * @return  self
      */ 
-    public function setTipoInscricao(int $tipoInscricao)
+    public function setTipoInscricao($tipoInscricao)
     {
         $this->tipoInscricao = $tipoInscricao;
 
@@ -68,7 +68,7 @@ class Beneficiario
      *
      * @return  self
      */ 
-    public function setNumeroInscricao(int $numeroInscricao)
+    public function setNumeroInscricao($numeroInscricao)
     {
         $this->numeroInscricao = $numeroInscricao;
 
@@ -92,7 +92,7 @@ class Beneficiario
      *
      * @return  self
      */ 
-    public function setNome(string $nome)
+    public function setNome($nome)
     {
         $this->nome = $nome;
 

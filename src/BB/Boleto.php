@@ -4,8 +4,7 @@ namespace BoletosOnline\BB;
 
 use BoletosOnline\Ambiente;
 
-class Boleto implements \JsonSerializable
-{
+class Boleto {
     /**
      * Número do convênio de Cobrança do Cliente. Identificador determinado pelo sistema Cobrança para controlar a emissão de boletos, 
      * liquidação, crédito de valores ao Beneficiário e intercâmbio de dados com o cliente.
@@ -249,7 +248,7 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setNumeroConvenio(int $numeroConvenio)
+    public function setNumeroConvenio($numeroConvenio)
     {
         $this->numeroConvenio = $numeroConvenio;
 
@@ -273,7 +272,7 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setNumeroCarteira(int $numeroCarteira)
+    public function setNumeroCarteira($numeroCarteira)
     {
         $this->numeroCarteira = $numeroCarteira;
 
@@ -297,7 +296,7 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setNumeroVariacaoCarteira(int $numeroVariacaoCarteira)
+    public function setNumeroVariacaoCarteira($numeroVariacaoCarteira)
     {
         $this->numeroVariacaoCarteira = $numeroVariacaoCarteira;
 
@@ -327,7 +326,7 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setCodigoModalidade(int $codigoModalidade)
+    public function setCodigoModalidade($codigoModalidade)
     {
         $this->codigoModalidade = $codigoModalidade;
 
@@ -403,7 +402,7 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setValorOriginal(float $valorOriginal)
+    public function setValorOriginal($valorOriginal)
     {
         $this->valorOriginal = $valorOriginal;
 
@@ -427,7 +426,7 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setValorAbatimento(float $valorAbatimento)
+    public function setValorAbatimento($valorAbatimento)
     {
         $this->valorAbatimento = $valorAbatimento;
 
@@ -451,7 +450,7 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setQuantidadeDiasProtesto(int $quantidadeDiasProtesto)
+    public function setQuantidadeDiasProtesto($quantidadeDiasProtesto)
     {
         $this->quantidadeDiasProtesto = $quantidadeDiasProtesto;
 
@@ -477,7 +476,7 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setQuantidadeDiasNegativacao(int $quantidadeDiasNegativacao)
+    public function setQuantidadeDiasNegativacao($quantidadeDiasNegativacao)
     {
         $this->quantidadeDiasNegativacao = $quantidadeDiasNegativacao;
 
@@ -503,7 +502,7 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setOrgaoNegativador(int $orgaoNegativador)
+    public function setOrgaoNegativador($orgaoNegativador)
     {
         $this->orgaoNegativador = $orgaoNegativador;
 
@@ -527,7 +526,7 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setIndicadorAceiteTituloVencido(string $indicadorAceiteTituloVencido)
+    public function setIndicadorAceiteTituloVencido($indicadorAceiteTituloVencido)
     {
         $this->indicadorAceiteTituloVencido = $indicadorAceiteTituloVencido;
 
@@ -551,7 +550,7 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setNumeroDiasLimiteRecebimento(int $numeroDiasLimiteRecebimento)
+    public function setNumeroDiasLimiteRecebimento($numeroDiasLimiteRecebimento)
     {
         $this->numeroDiasLimiteRecebimento = $numeroDiasLimiteRecebimento;
 
@@ -575,7 +574,7 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setCodigoAceite(string $codigoAceite)
+    public function setCodigoAceite($codigoAceite)
     {
         $this->codigoAceite = $codigoAceite;
 
@@ -599,7 +598,7 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setCodigoTipoTitulo(int $codigoTipoTitulo)
+    public function setCodigoTipoTitulo($codigoTipoTitulo)
     {
         $this->codigoTipoTitulo = $codigoTipoTitulo;
 
@@ -623,7 +622,7 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setDescricaoTipoTitulo(string $descricaoTipoTitulo)
+    public function setDescricaoTipoTitulo($descricaoTipoTitulo)
     {
         $this->descricaoTipoTitulo = $descricaoTipoTitulo;
 
@@ -647,7 +646,7 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setIndicadorPermissaoRecebimentoParcial(string $indicadorPermissaoRecebimentoParcial)
+    public function setIndicadorPermissaoRecebimentoParcial($indicadorPermissaoRecebimentoParcial)
     {
         $this->indicadorPermissaoRecebimentoParcial = $indicadorPermissaoRecebimentoParcial;
 
@@ -671,7 +670,7 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setNumeroTituloBeneficiario(string $numeroTituloBeneficiario)
+    public function setNumeroTituloBeneficiario($numeroTituloBeneficiario)
     {
         $this->numeroTituloBeneficiario = $numeroTituloBeneficiario;
 
@@ -695,7 +694,7 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setCampoUtilizacaoBeneficiario(string $campoUtilizacaoBeneficiario)
+    public function setCampoUtilizacaoBeneficiario($campoUtilizacaoBeneficiario)
     {
         $this->campoUtilizacaoBeneficiario = $campoUtilizacaoBeneficiario;
 
@@ -719,21 +718,9 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setNumeroTituloCliente(string $numeroTituloCliente)
+    public function setNumeroTituloCliente($numeroTituloCliente)
     {
-        if($_ENV['AMBIENTE'] === Ambiente::DESENVOLVIMENTO) {
-            $caracteres = '0123456789';
-            $aleatorio = '';
-            
-            for($i = 0; $i < 20; $i++) {
-                $aleatorio .= $caracteres[rand(0, strlen($caracteres) - 1)];
-            }
-
-            $this->numeroTituloCliente = '000' . $this->getNumeroConvenio() . $aleatorio;
-        }else {
-            $this->numeroTituloCliente = '000' . $this->getNumeroConvenio() . $numeroTituloCliente;
-        }
-
+        $this->numeroTituloCliente = '000' . $this->getNumeroConvenio() . $numeroTituloCliente;
         return $this;
     }
 
@@ -754,9 +741,9 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setMensagemBloquetoOcorrencia(string $mensagemBloquetoOcorrencia)
+    public function setMensagemBloquetoOcorrencia($mensagemBloquetoOcorrencia)
     {
-        $this->mensagemBloquetoOcorrencia = $mensagemBloquetoOcorrencia;
+        $this->mensagemBloquetoOcorrencia = substr($mensagemBloquetoOcorrencia, 0, 30);
 
         return $this;
     }
@@ -946,7 +933,7 @@ class Boleto implements \JsonSerializable
      *
      * @return  self
      */
-    public function setIndicadorPix(string $indicadorPix)
+    public function setIndicadorPix($indicadorPix)
     {
         $this->indicadorPix = $indicadorPix;
 
@@ -954,11 +941,6 @@ class Boleto implements \JsonSerializable
     }
 
     public function toArray() {
-        
-    }
-
-    public function jsonSerialize(): array
-    {
         $vars = get_object_vars($this);
         
         foreach($vars as $index => $value) {

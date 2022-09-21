@@ -26,7 +26,7 @@ class XMLBuilder extends DOMDocument
         if (is_array($array)) {
             foreach ($array as $index => $mixedElement) {
                 //Descontos será adicionado depois
-                if ($index == 'DESCONTOS') {
+                if ($index == 'DESCONTOS' || is_null($mixedElement)) {
                     continue;
                 } else {
                     if (is_int($index)) {

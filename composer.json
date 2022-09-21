@@ -12,11 +12,14 @@
             "email": "rafahgmorais@gmail.com"
         }
     ],
-    "require-dev": {
-        "phpunit/phpunit": "^5.7"
+
+    "config": {
+        "platform": {
+            "php": "5.3.28"
+        }
     },
     "require": {
-        "guzzlehttp/guzzle": "^6.5",
-        "vlucas/phpdotenv": "^4.2"
+        "guzzlehttp/guzzle": "3.7.0",
+        "vlucas/phpdotenv": "2.0.1"
     }
 }

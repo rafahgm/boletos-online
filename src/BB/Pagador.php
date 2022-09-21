@@ -84,7 +84,7 @@ class Pagador {
      *
      * @return  self
      */ 
-    public function setTipoInscricao(int $tipoInscricao)
+    public function setTipoInscricao($tipoInscricao)
     {
         $this->tipoInscricao = $tipoInscricao;
 
@@ -108,7 +108,7 @@ class Pagador {
      *
      * @return  self
      */ 
-    public function setNumeroInscricao(int $numeroInscricao)
+    public function setNumeroInscricao($numeroInscricao)
     {
         $this->numeroInscricao = $numeroInscricao;
 
@@ -132,7 +132,7 @@ class Pagador {
      *
      * @return  self
      */ 
-    public function setNome(string $nome)
+    public function setNome($nome)
     {
         $this->nome = $nome;
 
@@ -156,7 +156,7 @@ class Pagador {
      *
      * @return  self
      */ 
-    public function setEndereco(string $endereco)
+    public function setEndereco($endereco)
     {
         $this->endereco = $endereco;
 
@@ -180,7 +180,7 @@ class Pagador {
      *
      * @return  self
      */ 
-    public function setCep(int $cep)
+    public function setCep($cep)
     {
         $this->cep = $cep;
 
@@ -204,7 +204,7 @@ class Pagador {
      *
      * @return  self
      */ 
-    public function setCidade(string $cidade)
+    public function setCidade($cidade)
     {
         $this->cidade = $cidade;
 
@@ -228,7 +228,7 @@ class Pagador {
      *
      * @return  self
      */ 
-    public function setBairro(string $bairro)
+    public function setBairro($bairro)
     {
         $this->bairro = $bairro;
 
@@ -252,7 +252,7 @@ class Pagador {
      *
      * @return  self
      */ 
-    public function setUf(string $uf)
+    public function setUf($uf)
     {
         $this->uf = $uf;
 
@@ -276,7 +276,7 @@ class Pagador {
      *
      * @return  self
      */ 
-    public function setTelefone(string $telefone)
+    public function setTelefone($telefone)
     {
         $this->telefone = $telefone;
 

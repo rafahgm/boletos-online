@@ -4,17 +4,19 @@ namespace BoletosOnline\BB;
 
 use BoletosOnline\Ambiente;
 use Exception;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+use Guzzle\Http\Client;
+
+use Guzzle\Http\Exception\ClientErrorResponseException;
+
 
 class IntegracaoBB
 {
     static private $urls = array(
-        Ambiente::PRODUCAO => array(
+        'PRODUCAO' => array(
             'token' => 'https://oauth.bb.com.br/oauth/token',
             'registro' => 'https://api.bb.com.br/cobrancas/v2/boletos'
         ),
-        Ambiente::DESENVOLVIMENTO => array(
+        'DESENVOLVIMENTO' => array(
             'token' => 'https://oauth.hm.bb.com.br/oauth/token',
             'registro' => 'https://api.hm.bb.com.br/cobrancas/v2/boletos'
         )
@@ -31,8 +33,7 @@ class IntegracaoBB
      * Caminho para o diretorio de cache dos tokens
      * @var string $pastaCache
      */
-    static private $pastaCache = __DIR__ . '/cache';
-
+    static private $pastaCache;
     /**
      * Último token obtido
      * @var string $tokenEmCache
@@ -57,26 +58,31 @@ class IntegracaoBB
     private $secret;
 
     /**
+     * @var string $devAppKey
+     */
+    private $devAppKey;
+
+    /**
      * Cliente HTTP para requisições
      * @var \GuzzleHttp\Client $httpClient
      */
     private $httpClient;
 
 
-    public function __construct()
+    public function __construct($developer_application_key = null, $client_id = null, $client_secret = null)
     {
+        self::$pastaCache = dirname(__FILE__) . '/cache';
 
-        $this->httpClient = new Client([
-            'timeout' => 2.0
-        ]);
+        $this->httpClient = new Client();
+
+        $this->httpClient->setSslVerification(false);
 
         // Verifica ambeiente
-        $this->ambiente = Ambiente::getAmbiente();
+        $this->ambiente = Ambiente::DESENVOLVIMENTO;
 
-        if ($this->ambiente === Ambiente::DESENVOLVIMENTO) {
-            $this->clientID = 'eyJpZCI6Ijk0OWM2ZDgtMDQ5IiwiY29kaWdvUHVibGljYWRvciI6MCwiY29kaWdvU29mdHdhcmUiOjIyNTczLCJzZXF1ZW5jaWFsSW5zdGFsYWNhbyI6MX0';
-            $this->secret = 'eyJpZCI6IjM3YjE5MmEtOGU5Ny00NTRiLThhYjQtNjkzYzU5MCIsImNvZGlnb1B1YmxpY2Fkb3IiOjAsImNvZGlnb1NvZnR3YXJlIjoyMjU3Mywic2VxdWVuY2lhbEluc3RhbGFjYW8iOjEsInNlcXVlbmNpYWxDcmVkZW5jaWFsIjoxLCJhbWJpZW50ZSI6ImhvbW9sb2dhY2FvIiwiaWF0IjoxNjMyMzIxMjI3Nzc1fQ';
-        }
+        $this->devAppKey = $developer_application_key;
+        $this->clientID = $client_id;
+        $this->secret = $client_secret;
     }
 
     private function getAuthorizationHeader()
@@ -89,90 +95,30 @@ class IntegracaoBB
      * @throws \Exception
      * @return string
      */
-    public function obterToken($usar_cache = false)
+    public function obterToken()
     {
-
-        if ($this->tokenEmCache && $usar_cache) return $this->tokenEmCache['access_token'];
-
-        // Cria pasta para o cache caso não exista
-        if(!file_exists(self::$pastaCache))
-            mkdir(self::$pastaCache, 0775, true);
-        $caminho_arquivo_cache = self::$pastaCache . '/bb_token_cache_' . md5($this->clientID);
-
-        if ($usar_cache) {
-            // Se o arquivo existir, retorna o timestamp da última modificação
-            $ultima_modificacao = filemtime($caminho_arquivo_cache);
-
-            if ($ultima_modificacao && $ultima_modificacao + self::$tokenTtl > time()) {
-                // Tenta abrir o arquivo
-                $arquivo = fopen($caminho_arquivo_cache, 'r');
-
-                if ($arquivo) {
-                    // Trava o arquivo enquanto é lido
-                    flock($arquivo, LOCK_SH);
-
-                    $token = '';
-
-                    do
-                        $token .= fread($arquivo, 1024);
-                    while (!feof($arquivo));
-
-                    fclose($arquivo);
-
-
-                    // retorna o token
-                    $this->tokenEmCache = array(
-                        'token' => $token,
-                        'cache' => true
-                    );
-                    return $token;
-                }
-            }
-        }
-
-        try {
-            // Envia requisição para o access token
-            $response = $this->httpClient->post(self::$urls[$this->ambiente]['token'], [
-                'headers'  => [
+        try{
+            $request = $this->httpClient->post(
+                self::$urls[$this->ambiente]['token'],
+                array(
                     'Authorization' => $this->getAuthorizationHeader(),
-                    'Cache-Control' => 'no-cache'
-                ],
-                'form_params' => [
-                    'grant_type' => 'client_credentials',
-                    'scope' => 'cobrancas.boletos-requisicao'
-                ]
-            ]);
+                    'Cache-Control' => 'no-cache',
+                    'Content-Type' => 'application/x-www-form-urlencoded'
+                ),
+                'grant_type=client_credentials&scope=cobrancas.boletos-requisicao'
+            );
+
+
+            $response = $request->send();
 
             $json_response = json_decode($response->getBody(), true);
             if ($json_response) {
                 // Sucesso
-                if ($json_response['access_token']) {
-                    // Armazena o token em cache
-                    $arquivo = fopen($caminho_arquivo_cache, 'w+');
-
-                    if ($arquivo) {
-                        flock($arquivo, LOCK_SH);
-
-                        // apaga todo o conteúdo do arquivo
-                        ftruncate($arquivo, 0);
-
-                        // escreve o token no arquivo
-                        fwrite($arquivo, $json_response['access_token']);
-
-                        fclose($arquivo);
-                    }
-                }
-
-                $this->tokenEmCache = array(
-                    'token' => $json_response['access_token'],
-                    'cache' => false
-                );
-                return $json_response['access_token'];
-            } else {
-                throw new \Exception('Erro ao obter token: ' . $json_response['error_description']);
+                if ($json_response['access_token']) return $json_response['token_type'] . ' ' . $json_response['access_token'];
             }
-        } catch (GuzzleException $exception) {
-            throw new \Exception('Erro na requisição do token: ' . $exception->getMessage());
+        } catch (ClientErrorResponseException $e) {
+            $error = json_decode($e->getResponse()->getBody(), true);
+            var_dump($error);
         }
     }
 
@@ -181,30 +127,34 @@ class IntegracaoBB
      * 
      * @param Boleto $boleto
      */
-    public function registraBoleto(Boleto $boleto) {
+    public function registraBoleto(Boleto $boleto)
+    {
 
         $token = $this->obterToken();
-        $payload = json_encode($boleto);
-
-        // die();
+        $payload = json_encode($boleto->toArray());
         try {
-            $response = $this->httpClient->post(self::$urls[$this->ambiente]['registro'], [
-                'query' => ['gw-dev-app-key' => 'd27b077904ffaba0136fe17d40050f56b911a5b7'],
-                'headers'  => [
-                    'Authorization' => 'Bearer ' . $token,
-                    'Cache-Control' => 'no-cache',
+            $request = $this->httpClient->post(
+                self::$urls[$this->ambiente]['registro'] . '?gw-dev-app-key='.$this->devAppKey,
+                array(
+                    'Authorization' => $token,
                     'Content-Type' => 'application/json'
-                ],
-                'body' => $payload
-            ]);
+                ),
+                $payload
+            );
+
+
+
+            $response = $request->send();
 
             $json_response = json_decode($response->getBody(), true);
-            if($json_response) {
+            if ($json_response) {
                 return $json_response;
             }
-
-        }catch(\Exception $e) {
-            throw new \Exception('Erro na requisição do registro');
+        } catch (ClientErrorResponseException $e) {
+            $error = json_decode($e->getResponse()->getBody(), true);
+            var_dump($error);
+            var_dump($e->getMessage());
+            // throw new \Exception('Erro na requisição do registro: ' . $error['message'] . '||' . $e->getMessage());
         }
     }
 }

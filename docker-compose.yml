@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   php-apache-environment:
-    container_name: php-apache
+    container_name: php5.3-apache
     build:
       context: .
       dockerfile: Dockerfile

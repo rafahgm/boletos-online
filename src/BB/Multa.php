@@ -57,7 +57,7 @@ class Multa
      *
      * @return  self
      */
-    public function setTipo(int $tipo)
+    public function setTipo($tipo)
     {
         $this->tipo = $tipo;
 
@@ -105,7 +105,7 @@ class Multa
      *
      * @return  self
      */
-    public function setPorcentagem(float $porcentagem)
+    public function setPorcentagem($porcentagem)
     {
         $this->porcentagem = $porcentagem;
 
@@ -129,7 +129,7 @@ class Multa
      *
      * @return  self
      */
-    public function setValor(float $valor)
+    public function setValor($valor)
     {
         $this->valor = $valor;
 
